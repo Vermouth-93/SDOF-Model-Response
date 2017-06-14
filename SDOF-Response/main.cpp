@@ -13,6 +13,11 @@ int main()
     int j; //counter for value of constant c
     int c[4] = {0,100,938,2000};
 
+    int index;
+    float maxDisp;
+    float maxVel;
+    float maxAcc;
+
     float k = 2200; //stiffness
     float m = 100; //mass in tonnes
     float deltaT = 0.1; //delta of time
@@ -33,7 +38,7 @@ int main()
 
     ofstream outdata;
     outdata.open("data.csv", ios::app);
-    outdata << "t, u[i-1], u[i], p^[i], u[i+1], v[i], acc[i]" << endl;
+    outdata << "c,t, u[i-1], u[i], p^[i], u[i+1], v[i], acc[i]" << endl;
 
     for(j=0; j<4; j++)
     {
@@ -98,8 +103,32 @@ int main()
             cout << "End of iteration " << i<< endl;
             cout << "----------------------------------------------------------------------" << endl;
 
-           outdata << i*deltaT << "," << u[i-1] << "," << u[i] << "," << pp[i] << "," << u[i+1] << "," << v[i] << "," << acc[i] << endl;
+            outdata << c[j] << "," << i*deltaT << "," << u[i-1] << "," << u[i] << "," << pp[i] << "," << u[i+1] << "," << v[i] << "," << acc[i] << endl;
         }
+
+        maxDisp = fabs(u[0]);
+        maxVel = fabs(v[0]);
+        maxAcc = fabs(acc[0]);
+
+        //array to check the absolute maximum of u,v and acc arrays
+        for(index=0;index<25;index++){
+                if(maxDisp < fabs(u[index])){
+                    maxDisp = fabs(u[index]);
+                }
+
+                if(maxVel < fabs(v[index])){
+                    maxVel = fabs(v[index]);
+                }
+
+                if(maxAcc < fabs(v[index])){
+                    maxAcc = fabs(v[index]);
+                }
+        }
+        cout << "For c = " << c[j] << ", Absolute Maximum of u-array of = " << maxDisp << endl;
+        cout << "For c = " << c[j] << ", Absolute Maximum of v-array = " << maxVel << endl;
+        cout << "For c = " << c[j] << ", Absolute Maximum of acc-array = " << maxAcc << endl;
+
+        outdata << " , , , , , , " << endl;
     }
 
     return 0;
