@@ -103,7 +103,12 @@ int main()
             cout << "End of iteration " << i<< endl;
             cout << "----------------------------------------------------------------------" << endl;
 
-            outdata << c[j] << "," << i*deltaT << "," << u[i-1] << "," << u[i] << "," << pp[i] << "," << u[i+1] << "," << v[i] << "," << acc[i] << endl;
+            if(i==0){
+                outdata << c[j] << "," << i*deltaT << "," << u_1 << "," << u[i] << "," << pp[i] << "," << u[i+1] << "," << v[i] << "," << acc[i] << endl;
+            }else{
+                outdata << c[j] << "," << i*deltaT << "," << u[i-1] << "," << u[i] << "," << pp[i] << "," << u[i+1] << "," << v[i] << "," << acc[i] << endl;
+            }
+
         }
 
         maxDisp = fabs(u[0]);
