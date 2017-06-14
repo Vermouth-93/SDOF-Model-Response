@@ -1,6 +1,9 @@
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
+#include <fstream>
+#include<string>
+#include <iomanip>
 
 using namespace std;
 
@@ -28,7 +31,11 @@ int main()
     float pp[25] = { }; //p chapeau
     float kk; //k chapeau
 
-    for(j=0; j<1; j++)
+    ofstream outdata;
+    outdata.open("data.csv", ios::app);
+    outdata << "t, u[i-1], u[i], p^[i], u[i+1], v[i], acc[i]" << endl;
+
+    for(j=0; j<4; j++)
     {
         kk = (m/(deltaT*deltaT)) + (c[j]/(deltaT*deltaT));
         cout << "K chapeau = " << kk << endl;
@@ -47,7 +54,7 @@ int main()
 
         cout << "----------------------------------------------------------------------" << endl;
 
-        for(i=0; i<2; i++)
+        for(i=0; i<=20; i++)
         {
             cout << "Iteration " << i << endl;
 
@@ -58,11 +65,11 @@ int main()
             }
             else
             {
-                cout << "value of i = " << i << endl;
                 p[i] = (float) 100*sin(2*i*deltaT);
                 cout << "P of "  << i << " ="  << p[i] << endl;
+
                 pp[i] = p[i] - a*u[i-1] - b*u[i];
-                cout << "P chapeau of " << i << " =" << pp[j] << endl;
+                cout << "P chapeau of " << i << " =" << pp[i] << endl;
             }
 
             u[i+1] = pp[i]/kk;
@@ -90,6 +97,8 @@ int main()
 
             cout << "End of iteration " << i<< endl;
             cout << "----------------------------------------------------------------------" << endl;
+
+           outdata << i*deltaT << "," << u[i-1] << "," << u[i] << "," << pp[i] << "," << u[i+1] << "," << v[i] << "," << acc[i] << endl;
         }
     }
 
